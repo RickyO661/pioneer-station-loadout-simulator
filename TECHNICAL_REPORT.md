@@ -21,3 +21,7 @@ Rank/currency gates (`@`, `#`) and percent/flag gates (`%`) are retained in `raw
 ## Rules intentionally configurable
 
 Carry capacity is isolated as `baseCarryKg + Strength`, matching Jump Trooper 30 kg + Strength 18 = 48 kg. Armor working-model scaling, damage-through calculation, and unidentified channel names live together in `src/rules/config.ts`; nothing in the UI hard-codes per-item balance values.
+
+## Vitality and HP
+
+The RPG definition states that Vitality “Enhances hit points” and caps it at 50. Vehicle records provide each class’s base HP (Jump Trooper: 80), but none of the supplied `.rpg`, `.veh`, `.itm`, notes, or other reviewed zone files defines a Vitality-to-HP equation or progression table. Medical item descriptions mention temporary health effects but do not establish the character Vitality rule. The server-validated rule supplied after this review is isolated as `calculateHP(classBaseHp, vitality) = classBaseHp + vitality`.

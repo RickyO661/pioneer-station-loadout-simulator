@@ -24,6 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      # Dependencies are installed on the Linux runner; never use a copied Windows node_modules folder.
       - name: Remove copied dependencies
         run: rm -rf node_modules
       - name: Install dependencies

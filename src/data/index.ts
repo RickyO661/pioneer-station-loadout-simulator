@@ -1,2 +1,2 @@
-import { gameData } from './generated';
+import { gameData } from './generated.ts';
 export { gameData };

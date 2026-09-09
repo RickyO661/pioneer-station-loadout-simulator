@@ -9,4 +9,4 @@ export interface GameDatabase { source: { importedAt: string; files: Record<stri
 export interface LoadoutEntry { entryId: string; itemId: number; quantity: number; }
 export interface Loadout { classId: number; attributes: AttributeSet; entries: LoadoutEntry[]; }
 export interface Eligibility { eligible: boolean; messages: string[]; warnings: string[]; }
-export interface BuildResult { baseHp: number; maxCarryKg: number; loadKg: number; remainingKg: number; percentUsed: number; entries: Array<LoadoutEntry & { item: Item; eligibility: Eligibility; stackKg: number }>; }
+export interface BuildResult { classBaseHp: number; finalHp: number; maxCarryKg: number; loadKg: number; remainingKg: number; percentUsed: number; entries: Array<LoadoutEntry & { item: Item; eligibility: Eligibility; stackKg: number }>; }

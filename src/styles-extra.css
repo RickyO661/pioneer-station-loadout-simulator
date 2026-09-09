@@ -1,0 +1,12 @@
+.section-heading h2 { white-space: normal; }
+
+.info-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.info-button:hover { background: transparent; color: #fff; }
