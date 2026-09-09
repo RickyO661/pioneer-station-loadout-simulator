@@ -1,7 +1,0 @@
-cd "C:\Users\ricky\OneDrive\Documents\ChatGPT\Eol Free Infantry"
-
-git add .
-git commit -m "Initial Pioneer Station loadout simulator"
-git branch -M main
-git remote add origin https://github.com/YOUR-RickyO661/RickyO661-pioneer-station-loadout-simulator.git
-git push -u origin main
