@@ -73,12 +73,16 @@ main { position: relative; }
 .command-deck {
   position: relative;
   isolation: isolate;
-  padding: 1.2rem 1.35rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(25rem, .9fr);
+  align-items: start;
+  gap: 1.1rem;
+  padding: .85rem 1rem;
   border: 1px solid #2a6a65;
   border-bottom: 3px solid #52d1bf;
-  min-height: 13.5rem;
+  min-height: 10.75rem;
   background:
-    linear-gradient(100deg, rgba(4, 16, 18, .58), rgba(7, 20, 25, .36) 62%, rgba(8, 27, 29, .5)),
+    linear-gradient(100deg, rgba(4, 16, 18, .42), rgba(7, 20, 25, .18) 62%, rgba(8, 27, 29, .35)),
     radial-gradient(ellipse at 78% 48%, rgba(40, 160, 147, .12), transparent 48%),
     url('/pioneer-station-console-hero.png') center / cover no-repeat,
     #09191b;
@@ -111,11 +115,17 @@ main { position: relative; }
   display: flex;
   gap: .9rem;
   align-items: flex-start;
-  padding: .7rem .85rem;
+  max-width: 45rem;
+  padding: .45rem .6rem;
   border-left: 2px solid #69dfd1;
-  background: linear-gradient(90deg, rgba(4, 18, 20, .88), rgba(4, 18, 20, .56), transparent);
+  background: linear-gradient(90deg, rgba(4, 18, 20, .74), rgba(4, 18, 20, .28), transparent);
   text-shadow: 0 2px 8px #000;
 }
+.command-brand h1 { font-size: clamp(1.3rem, 1.8vw, 1.65rem); line-height: 1.05; }
+.command-brand .source { margin: .42rem 0 0; font-size: .7rem; }
+.command-readout { display: flex; flex-wrap: wrap; gap: .25rem .85rem; margin-top: .35rem; color: #dffff6; font-size: .9rem; }
+.command-readout b { font-weight: 600; white-space: nowrap; }
+.command-readout b:not(:last-child)::after { content: ''; border-right: 1px solid #3b8079; margin-left: .85rem; }
 .command-mark {
   display: grid;
   flex: 0 0 auto;
@@ -136,12 +146,12 @@ main { position: relative; }
 .command-controls {
   display: grid;
   justify-items: end;
-  gap: .65rem;
-  padding: .7rem;
-  background: linear-gradient(270deg, rgba(4, 18, 20, .86), rgba(4, 18, 20, .48), transparent);
+  gap: .45rem;
+  padding: .4rem .5rem;
+  background: linear-gradient(270deg, rgba(4, 18, 20, .72), rgba(4, 18, 20, .22), transparent);
   text-shadow: 0 2px 8px #000;
 }
-.console-status { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; color: #6fc8c1; font: 700 .65rem/1 ui-monospace, Consolas, monospace; letter-spacing: .1em; }
+.console-status { display: flex; align-items: center; justify-content: flex-end; gap: .8rem; color: #6fc8c1; font: 700 .58rem/1 ui-monospace, Consolas, monospace; letter-spacing: .08em; }
 .console-status span:first-child { color: #8ff0ae; }
 .console-status i { display: inline-block; width: .42rem; height: .42rem; margin-right: .35rem; border-radius: 50%; background: #73efa9; box-shadow: 0 0 .55rem #73efa9; }
 
@@ -155,7 +165,7 @@ button { box-shadow: 0 0 .65rem rgba(73, 202, 185, .08); transition: transform .
 button:hover { transform: translateY(-1px); border-color: #5de1cf; }
 
 @media(max-width:680px) {
-  .command-deck { min-height: 0; padding: 1rem; background-position: 62% center; }
+  .command-deck { grid-template-columns: 1fr; min-height: 0; padding: 1rem; background-position: 62% center; }
   .command-brand { gap: .65rem; }
   .command-mark { width: 2.2rem; height: 2.2rem; }
   .command-controls { justify-items: start; margin-top: .8rem; }
