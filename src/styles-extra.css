@@ -10,3 +10,17 @@
 }
 
 .info-button:hover { background: transparent; color: #fff; }
+
+.xp-planner {
+  grid-column: 1 / -1;
+  border-top: 1px solid #285650;
+  padding-top: .85rem;
+}
+
+.xp-planner summary { color: #8be8e4; cursor: pointer; font-weight: 600; }
+.xp-planner p { color: #8cb4ae; font-size: .8rem; margin: .55rem 0; }
+.xp-inputs { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: .5rem; }
+.xp-inputs label { display: flex; flex-direction: column; gap: .3rem; color: #87b9b2; font-size: .78rem; }
+.xp-result, .xp-breakdown { display: flex; flex-wrap: wrap; gap: .55rem 1.2rem; margin-top: .7rem; font-size: .82rem; color: #9cc6c3; }
+.xp-result b, .xp-breakdown b { color: #defbf8; }
+@media(max-width:680px) { .xp-inputs { grid-template-columns: repeat(2, 1fr); } }

@@ -25,3 +25,7 @@ Carry capacity is isolated as `baseCarryKg + Strength`, matching Jump Trooper 30
 ## Vitality and HP
 
 The RPG definition states that Vitality “Enhances hit points” and caps it at 50. Vehicle records provide each class’s base HP (Jump Trooper: 80), but none of the supplied `.rpg`, `.veh`, `.itm`, notes, or other reviewed zone files defines a Vitality-to-HP equation or progression table. Medical item descriptions mention temporary health effects but do not establish the character Vitality rule. The server-validated rule supplied after this review is isolated as `calculateHP(classBaseHp, vitality) = classBaseHp + vitality`.
+
+## Attribute experience costs
+
+`PioneerStation.cfg` defines `AttributeCostMethod=1`, `AttributeBaseCost=0`, and `AttributeCountPower=2.79`. `PioneerStation.rpg` supplies the individual base price for each attribute. In-game purchase observations confirm Method 1 as `floor(attributeBaseCost × nextLevel^2.79)`, calculated independently for each attribute. For example, Deftness costs 250, 1,729, 5,359, and 11,958 XP for levels 1–4; Strength costs 150, 1,037, 3,215, 7,175, and 13,372 XP for levels 1–5; Vitality costs 125, 864, and 2,679 XP for levels 1–3. The simulator imports the rule and base prices from the zone data, then sums only the purchases between a player's entered current level and their target build level.

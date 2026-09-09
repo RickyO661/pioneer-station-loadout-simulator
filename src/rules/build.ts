@@ -1,4 +1,4 @@
-import type { AttributeSet, BuildResult, GameClass, Item, Loadout } from '../types/game';
+import type { AttributeCostRules, AttributeDefinition, AttributeSet, BuildResult, GameClass, Item, Loadout } from '../types/game';
 import { RULES } from './config.ts';
 import { evaluateRequirement } from './requirements.ts';
 
@@ -6,6 +6,22 @@ export const EMPTY_ATTRIBUTES: AttributeSet = { deftness: 0, power: 0, stamina: 
 /** Configurable Vitality hook. Current zone files describe the effect but do not define its formula. */
 export function calculateHP(classBaseHp: number, vitality: number): number {
   return classBaseHp + vitality * RULES.hp.vitalityHpPerPoint;
+}
+/** Pioneer Station AttributeCostMethod=1, confirmed against in-game purchase costs. */
+export function calculateAttributePurchaseCost(attribute: AttributeDefinition, nextLevel: number, rules: AttributeCostRules): number {
+  if (rules.method !== 1 || nextLevel < 1) return 0;
+  return Math.floor((attribute.baseCost + rules.baseCost) * Math.pow(nextLevel, rules.countPower));
+}
+export function calculateExperiencePlan(current: AttributeSet, target: AttributeSet, attributes: AttributeDefinition[], rules: AttributeCostRules) {
+  const byKey = new Map(attributes.map(attribute => [attribute.key, attribute]));
+  const costs = (Object.keys(target) as Array<keyof AttributeSet>).map(key => {
+    const attribute = byKey.get(key);
+    const from = Math.max(0, current[key]);
+    const to = Math.max(0, target[key]);
+    const cost = attribute && to > from ? Array.from({ length: to - from }, (_, index) => calculateAttributePurchaseCost(attribute, from + index + 1, rules)).reduce((sum, value) => sum + value, 0) : 0;
+    return { key, name: attribute?.name ?? key, from, to, cost };
+  });
+  return { costs, totalCost: costs.reduce((sum, entry) => sum + entry.cost, 0) };
 }
 export function calculateBuild(loadout: Loadout, classes: GameClass[], items: Item[]): BuildResult {
   const gameClass = classes.find(c => c.id === loadout.classId) ?? classes[0];

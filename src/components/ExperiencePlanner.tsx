@@ -1,0 +1,8 @@
+import type { AttributeCostRules, AttributeDefinition, AttributeKey, AttributeSet } from '../types/game';
+import { calculateExperiencePlan } from '../rules/build';
+
+export function ExperiencePlanner({ availableXp, current, target, attributes, rules, onAvailableXpChange, onCurrentChange }: { availableXp: number; current: AttributeSet; target: AttributeSet; attributes: AttributeDefinition[]; rules: AttributeCostRules; onAvailableXpChange: (value: number) => void; onCurrentChange: (key: AttributeKey, value: number) => void; }) {
+  const plan = calculateExperiencePlan(current, target, attributes, rules);
+  const remaining = availableXp - plan.totalCost;
+  return <details className="xp-planner"><summary>Experience planner</summary><p>Enter your current XP and attributes. The build attributes above are your targets.</p><div className="xp-inputs"><label>Current available XP<input type="number" min="0" value={availableXp} onChange={event => onAvailableXpChange(Math.max(0, Number(event.target.value) || 0))} /></label>{attributes.map(attribute => <label key={attribute.key}>Current {attribute.name}<input type="number" min="0" value={current[attribute.key]} onChange={event => onCurrentChange(attribute.key, Math.max(0, Number(event.target.value) || 0))} /></label>)}</div><div className="xp-result"><span>Total needed <b>{plan.totalCost.toLocaleString()} XP</b></span><span className={remaining < 0 ? 'red' : ''}>{remaining < 0 ? `${Math.abs(remaining).toLocaleString()} XP short` : `${remaining.toLocaleString()} XP remaining`}</span></div><div className="xp-breakdown">{plan.costs.filter(cost => cost.cost > 0).map(cost => <span key={cost.key}>{cost.name} {cost.from} → {cost.to}: <b>{cost.cost.toLocaleString()} XP</b></span>)}</div></details>;
+}
