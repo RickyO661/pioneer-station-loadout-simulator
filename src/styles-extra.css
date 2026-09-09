@@ -44,4 +44,11 @@
 .comparison-grid em { margin: 0 .35rem; color: #f1c56c; font-style: normal; }
 .comparison-items { display: grid; gap: .35rem; margin-top: .65rem; }
 .comparison-items b { color: #defbf8; font-size: .82rem; }
+.suit-effects-summary { grid-template-columns: repeat(3, minmax(160px, 1fr)); }
+.armor-protection-summary { margin-top: .8rem; padding: .75rem; border: 1px solid #285650; background: #09191b; }
+.armor-protection-summary h3 { margin: 0; color: #defbf8; font-size: .95rem; }
+.armor-protection-summary p { margin: .35rem 0 .6rem; color: #8cb4ae; font-size: .78rem; }
+.armor-sources { margin-top: .8rem; color: #8be8e4; }
+.armor-sources summary { cursor: pointer; font-weight: 600; }
+.armor-sources .armor-card { margin-top: .5rem; }
 @media(max-width:680px) { .build-actions { justify-content: flex-start; } .comparison-head, .comparison-grid { grid-template-columns: 1fr; } .build-comparison select { display: block; margin: .35rem 0 0; width: 100%; } }

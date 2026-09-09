@@ -1,4 +1,4 @@
-import type { AttributeCostRules, AttributeDefinition, AttributeSet, BuildResult, GameClass, Item, Loadout } from '../types/game';
+import type { ArmorStats, AttributeCostRules, AttributeDefinition, AttributeSet, BuildResult, GameClass, Item, Loadout, SuitModifiers } from '../types/game';
 import { RULES } from './config.ts';
 import { evaluateRequirement } from './requirements.ts';
 
@@ -30,4 +30,22 @@ export function calculateBuild(loadout: Loadout, classes: GameClass[], items: It
   const maxCarryKg = gameClass.baseCarryKg + loadout.attributes.strength * RULES.carry.strengthKgPerPoint;
   return { classBaseHp: gameClass.baseHp, finalHp: calculateHP(gameClass.baseHp, loadout.attributes.vitality), maxCarryKg, loadKg, remainingKg: maxCarryKg - loadKg, percentUsed: maxCarryKg ? loadKg / maxCarryKg * 100 : 0, entries };
 }
-export function armorDefense(ignoreRaw: number, protectionRaw: number) { const scale = RULES.armor.valueScale; const ignore = ignoreRaw / scale; const protection = protectionRaw / scale; const through = (1 - ignore) * (1 - protection); return { ignore, protection, through, reduction: 1 - through }; }
+export function calculateArmorChannelTotals(entries: Array<{ armor?: ArmorStats; quantity: number }>) {
+  return RULES.armor.damageChannels.map((name, index) => {
+    const raw = entries.reduce((total, entry) => {
+      const channel = entry.armor?.channels[index];
+      return { ignoreRaw: total.ignoreRaw + (channel?.ignoreRaw ?? 0) * entry.quantity, protectionRaw: total.protectionRaw + (channel?.protectionRaw ?? 0) * entry.quantity };
+    }, { ignoreRaw: 0, protectionRaw: 0 });
+    return { name, ignore: raw.ignoreRaw / RULES.armor.ignoreScale, protection: raw.protectionRaw / RULES.armor.protectionScale };
+  });
+}
+export function calculateSuitEffects(entries: Array<{ suitModifiers?: SuitModifiers; quantity: number }>) {
+  const initial: SuitModifiers = { energyRateRaw: 0, speedRaw: 0, hyperSpeedRaw: 0, thrustRaw: 0, rotationRaw: 0 };
+  const raw = entries.reduce((total, entry) => {
+    const modifiers = entry.suitModifiers;
+    if (!modifiers) return total;
+    (Object.keys(total) as Array<keyof SuitModifiers>).forEach(key => { total[key] += modifiers[key] * entry.quantity; });
+    return total;
+  }, initial);
+  return Object.fromEntries((Object.keys(raw) as Array<keyof SuitModifiers>).map(key => [key, raw[key] / RULES.suitEffects.rawScale])) as Record<keyof SuitModifiers, number>;
+}

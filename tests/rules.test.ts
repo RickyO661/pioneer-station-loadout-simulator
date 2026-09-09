@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateAttributePurchaseCost, calculateBuild, calculateExperiencePlan, calculateHP, EMPTY_ATTRIBUTES } from '../src/rules/build.ts';
+import { calculateArmorChannelTotals, calculateAttributePurchaseCost, calculateBuild, calculateExperiencePlan, calculateHP, calculateSuitEffects, EMPTY_ATTRIBUTES } from '../src/rules/build.ts';
 import { evaluateRequirement } from '../src/rules/requirements.ts';
 import { gameData } from '../src/data/index.ts';
 import type { GameClass, Item } from '../src/types/game.ts';
@@ -58,4 +58,17 @@ test('shared builds accept only known zone classes and items', () => {
   assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items)?.name, 'Player build');
   source.loadout.entries[0].itemId = -1;
   assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items), null);
+});
+test('suit effects use the named Pioneer Station energy and movement fields', () => {
+  const byName = (name: string) => gameData.items.find(item => item.name === name)!;
+  const effects = calculateSuitEffects(['Suit SuperCharger', 'PF Generator', 'Energy Sensors', 'Carapace'].map(name => ({ suitModifiers: byName(name).suitModifiers, quantity: 1 })));
+  assert.deepEqual(effects, { energyRateRaw: -7.5, speedRaw: -15, hyperSpeedRaw: -15, thrustRaw: -7.5, rotationRaw: 0 });
+});
+test('armor totals include all six named protection channels', () => {
+  const pfGenerator = gameData.items.find(item => item.name === 'PF Generator')!;
+  const totals = calculateArmorChannelTotals([{ armor: pfGenerator.armor, quantity: 1 }]);
+  assert.deepEqual(totals.map(total => [total.name, total.ignore, total.protection]), [
+    ['Kinetic / Impact', 0, 15], ['Explosive / Shock', 0, 15], ['Plasma / Heat', 0, 15],
+    ['Chemical / Toxin', 0, 0], ['Psychic / Mental', 0, 0], ['Shield Drain', 0, 22.5]
+  ]);
 });

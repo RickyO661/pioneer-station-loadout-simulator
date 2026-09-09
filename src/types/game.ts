@@ -5,8 +5,10 @@ export interface AttributeDefinition { key: AttributeKey; name: string; baseCost
 export interface AttributeCostRules { method: number; baseCost: number; countPower: number; }
 export interface GameClass { id: number; name: string; group: string; baseHp: number; baseCarryKg: number; requiredXp: number; minimumAttributes: Partial<AttributeSet>; }
 export interface ItemRequirement { rawExpression: string; allowedClassIds?: number[]; blockedClassIds?: number[]; minimumAttributes: Partial<AttributeSet>; hasUnverifiedGate: boolean; }
-export interface ArmorStats { mobilityRaw: number[]; channels: { ignoreRaw: number; protectionRaw: number }[]; }
-export interface Item { id: number; name: string; category: ItemCategory; sourceCategory: string; description: string; weightKg: number; requirement: ItemRequirement; armor?: ArmorStats; rawFields: string[]; }
+/** Raw suit-effect fields supplied by Pioneer Station item records. */
+export interface SuitModifiers { energyRateRaw: number; speedRaw: number; hyperSpeedRaw: number; thrustRaw: number; rotationRaw: number; }
+export interface ArmorStats { channels: { ignoreRaw: number; protectionRaw: number }[]; }
+export interface Item { id: number; name: string; category: ItemCategory; sourceCategory: string; description: string; weightKg: number; requirement: ItemRequirement; armor?: ArmorStats; suitModifiers?: SuitModifiers; rawFields: string[]; }
 export interface GameDatabase { source: { importedAt: string; files: Record<string, string> }; classes: GameClass[]; attributes: AttributeDefinition[]; attributeCostRules: AttributeCostRules; items: Item[]; }
 export interface LoadoutEntry { entryId: string; itemId: number; quantity: number; }
 export interface Loadout { classId: number; attributes: AttributeSet; entries: LoadoutEntry[]; }
