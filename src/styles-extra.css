@@ -84,7 +84,7 @@ main { position: relative; }
   background:
     linear-gradient(100deg, rgba(4, 16, 18, .42), rgba(7, 20, 25, .18) 62%, rgba(8, 27, 29, .35)),
     radial-gradient(ellipse at 78% 48%, rgba(40, 160, 147, .12), transparent 48%),
-    url('/pioneer-station-console-hero-swapped.png') center / cover no-repeat,
+    url('/pioneer-station-console-hero-swapped.png') center 20% / cover no-repeat,
     #09191b;
   box-shadow: 0 0 0 1px rgba(103, 245, 222, .06) inset, 0 1.2rem 3rem rgba(0, 0, 0, .24);
 }
