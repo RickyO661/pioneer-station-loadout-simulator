@@ -32,9 +32,6 @@
 .build-actions { display: flex; flex-wrap: wrap; gap: .45rem; justify-content: flex-end; }
 .sharing-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
 .file-import { display: none; }
-.code-sharing { font-size: .78rem; color: #8cb4ae; }
-.code-sharing summary { cursor: pointer; white-space: nowrap; }
-.code-sharing span { display: flex; gap: .35rem; position: absolute; z-index: 2; margin-top: .3rem; padding: .35rem; border: 1px solid #285650; background: #09191b; }
 .build-comparison { margin: 1rem 0; padding: .8rem 1rem; border: 1px solid #285650; background: #09191b; }
 .build-comparison summary { color: #8be8e4; cursor: pointer; font-weight: 600; }
 .build-comparison p { color: #8cb4ae; font-size: .8rem; margin: .5rem 0; }

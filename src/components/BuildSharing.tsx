@@ -21,16 +21,6 @@ export function BuildSharing({ loadout, classes, items, onImport }: { loadout: L
     link.click();
     URL.revokeObjectURL(link.href);
   };
-  const copyBuildCode = () => {
-    const name = window.prompt('Name for this shared build', 'Pioneer Station build');
-    if (!name?.trim()) return;
-    window.prompt('Copy this build code and send it to another player.', serializeSharedBuild(name, loadout));
-  };
-  const importBuild = () => {
-    const serialized = window.prompt('Paste a build code shared from this simulator. It will be added to your saved builds; your current build will not change.');
-    if (!serialized?.trim()) return;
-    addImportedBuild(serialized);
-  };
   const importFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = '';
@@ -38,5 +28,5 @@ export function BuildSharing({ loadout, classes, items, onImport }: { loadout: L
     if (file.size > 1_000_000) { window.alert('That file is too large to be a build export.'); return; }
     addImportedBuild(await file.text());
   };
-  return <span className="sharing-tools"><button onClick={downloadBuild}>Download build (.txt)</button><button onClick={() => fileInput.current?.click()}>Import .txt</button><input ref={fileInput} className="file-import" type="file" accept=".txt,text/plain,application/json" onChange={importFile} /><details className="code-sharing"><summary>Copy/paste code</summary><span><button onClick={copyBuildCode}>Copy code</button><button onClick={importBuild}>Paste code</button></span></details></span>;
+  return <span className="sharing-tools"><button onClick={downloadBuild}>Export Build</button><button onClick={() => fileInput.current?.click()}>Import Build</button><input ref={fileInput} className="file-import" type="file" accept=".txt,text/plain,application/json" onChange={importFile} /></span>;
 }
