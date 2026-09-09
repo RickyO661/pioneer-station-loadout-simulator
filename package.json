@@ -10,5 +10,5 @@
     "import-zone": "node scripts/import-zone.mjs"
   },
   "dependencies": { "@vitejs/plugin-react": "latest", "vite": "latest", "react": "latest", "react-dom": "latest" },
-  "devDependencies": { "typescript": "latest", "tsx": "latest", "@types/react": "latest", "@types/react-dom": "latest" }
+  "devDependencies": { "typescript": "latest", "tsx": "latest", "@types/node": "latest", "@types/react": "latest", "@types/react-dom": "latest" }
 }
