@@ -4,7 +4,7 @@ import { calculateArmorChannelTotals, calculateAttributePurchaseCost, calculateB
 import { evaluateRequirement } from '../src/rules/requirements.ts';
 import { gameData } from '../src/data/index.ts';
 import type { GameClass, Item } from '../src/types/game.ts';
-import { parseSharedBuild } from '../src/rules/sharing.ts';
+import { parseSharedBuild, serializeSharedBuild } from '../src/rules/sharing.ts';
 
 const jt: GameClass = { id: 2, name: 'Jump Trooper', group: 'Combat', baseHp: 80, baseCarryKg: 30, requiredXp: 0, minimumAttributes: {} };
 const drop: GameClass = { id: 24, name: 'Drop Trooper', group: 'Specialist', baseHp: 80, baseCarryKg: 30, requiredXp: 0, minimumAttributes: {} };
@@ -58,6 +58,12 @@ test('shared builds accept only known zone classes and items', () => {
   assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items)?.name, 'Player build');
   source.loadout.entries[0].itemId = -1;
   assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items), null);
+});
+test('shared build text files round-trip through the validated portable format', () => {
+  const loadout = { classId: gameData.classes[0].id, attributes: { ...EMPTY_ATTRIBUTES, vitality: 4 }, entries: [] };
+  const textFileContents = serializeSharedBuild('My saved build', loadout);
+  assert.match(textFileContents, /\n  "loadout":/);
+  assert.equal(parseSharedBuild(textFileContents, gameData.classes, gameData.items)?.name, 'My saved build');
 });
 test('suit effects use the named Pioneer Station energy and movement fields', () => {
   const byName = (name: string) => gameData.items.find(item => item.name === name)!;

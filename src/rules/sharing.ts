@@ -23,6 +23,11 @@ export function isUsableLoadout(value: unknown, classes: GameClass[], items: Ite
     && candidate.entries.every(entry => entry && typeof entry.entryId === 'string' && typeof entry.itemId === 'number' && items.some(item => item.id === entry.itemId) && typeof entry.quantity === 'number' && Number.isFinite(entry.quantity) && entry.quantity > 0);
 }
 
+/** Creates the portable text-file format used by the download/import controls. */
+export function serializeSharedBuild(name: string, loadout: Loadout): string {
+  return JSON.stringify({ version: 1, name: name.trim() || 'Pioneer Station build', loadout }, null, 2);
+}
+
 /** Parses an exported build only when every referenced class, item, and stat is known locally. */
 export function parseSharedBuild(serialized: string, classes: GameClass[], items: Item[]): SharedBuild | null {
   try {
