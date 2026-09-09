@@ -51,4 +51,97 @@
 .armor-sources { margin-top: .8rem; color: #8be8e4; }
 .armor-sources summary { cursor: pointer; font-weight: 600; }
 .armor-sources .armor-card { margin-top: .5rem; }
+
+/* Tactical console skin: original CSS visuals, with no copied game artwork. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .42;
+  background:
+    linear-gradient(90deg, transparent 0 49.8%, rgba(117, 242, 225, .03) 50% 50.2%, transparent 50.4%),
+    repeating-linear-gradient(0deg, rgba(91, 224, 203, .025) 0 1px, transparent 1px 5px),
+    radial-gradient(ellipse at 100% 10%, rgba(40, 145, 139, .16), transparent 28rem),
+    radial-gradient(ellipse at 0 100%, rgba(83, 55, 115, .11), transparent 25rem);
+  z-index: -1;
+}
+
+main { position: relative; }
+
+.command-deck {
+  position: relative;
+  isolation: isolate;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid #2a6a65;
+  border-bottom: 3px solid #52d1bf;
+  background:
+    linear-gradient(100deg, rgba(6, 24, 27, .94), rgba(7, 20, 25, .84) 62%, rgba(13, 43, 46, .8)),
+    radial-gradient(ellipse at 78% 48%, rgba(40, 160, 147, .18), transparent 48%),
+    url('/pioneer-station-console-hero.png') center / cover no-repeat,
+    #09191b;
+  box-shadow: 0 0 0 1px rgba(103, 245, 222, .06) inset, 0 1.2rem 3rem rgba(0, 0, 0, .24);
+}
+
+.command-deck::before, .command-deck::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.command-deck::before {
+  inset: 0;
+  opacity: .46;
+  background: repeating-linear-gradient(90deg, transparent 0 38px, rgba(104, 242, 220, .04) 39px 40px);
+}
+
+.command-deck::after {
+  width: 11rem;
+  height: .25rem;
+  right: 1.1rem;
+  top: 0;
+  background: repeating-linear-gradient(90deg, #78edbf 0 1.3rem, transparent 1.3rem 1.7rem);
+  filter: drop-shadow(0 0 5px rgba(112, 239, 193, .6));
+}
+
+.command-brand { display: flex; gap: .9rem; align-items: flex-start; }
+.command-mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 1px solid #55d9ce;
+  border-radius: 50%;
+  color: #dbfff7;
+  background: radial-gradient(circle at 40% 35%, #328b81, #0b2328 68%);
+  box-shadow: 0 0 1.1rem rgba(85, 217, 206, .2), inset 0 0 1rem rgba(115, 249, 228, .12);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: -.1em;
+}
+
+.command-controls { display: grid; justify-items: end; gap: .65rem; }
+.console-status { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; color: #6fc8c1; font: 700 .65rem/1 ui-monospace, Consolas, monospace; letter-spacing: .1em; }
+.console-status span:first-child { color: #8ff0ae; }
+.console-status i { display: inline-block; width: .42rem; height: .42rem; margin-right: .35rem; border-radius: 50%; background: #73efa9; box-shadow: 0 0 .55rem #73efa9; }
+
+.setup, .build-comparison, .armor-protection-summary { box-shadow: 0 .8rem 1.8rem rgba(0, 0, 0, .13); }
+.setup { border-color: #29635f; background: linear-gradient(110deg, rgba(9, 31, 32, .96), rgba(8, 24, 28, .94)); }
+.weight-meter { border-color: #3e8b83; box-shadow: 0 0 .8rem rgba(49, 199, 177, .12) inset; }
+.weight-meter span { box-shadow: 0 0 .85rem rgba(121, 224, 165, .55); }
+.loadout-section, .armor-analysis { border-top-color: #2e6963; }
+.section-heading h2::before { content: '// '; color: #f1c56c; }
+button { box-shadow: 0 0 .65rem rgba(73, 202, 185, .08); transition: transform .14s ease, background .14s ease, border-color .14s ease; }
+button:hover { transform: translateY(-1px); border-color: #5de1cf; }
+
+@media(max-width:680px) {
+  .command-deck { padding: 1rem; }
+  .command-brand { gap: .65rem; }
+  .command-mark { width: 2.2rem; height: 2.2rem; }
+  .command-controls { justify-items: start; margin-top: .8rem; }
+  .console-status { justify-content: flex-start; flex-wrap: wrap; gap: .5rem; }
+}
 @media(max-width:680px) { .build-actions { justify-content: flex-start; } .comparison-head, .comparison-grid { grid-template-columns: 1fr; } .build-comparison select { display: block; margin: .35rem 0 0; width: 100%; } }
