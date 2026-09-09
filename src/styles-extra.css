@@ -18,6 +18,10 @@
 }
 
 .xp-planner summary { color: #8be8e4; cursor: pointer; font-weight: 600; }
+.class-xp-gate { color: #6be5a4; font-size: .72rem; font-weight: 600; }
+.class-xp-gate.blocked { color: #ff8585; }
+.class-attribute-gate { color: #6be5a4; font-size: .7rem; line-height: 1.25; }
+.class-attribute-gate.blocked { color: #ff8585; }
 .xp-planner p { color: #8cb4ae; font-size: .8rem; margin: .55rem 0; }
 .xp-inputs { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: .5rem; }
 .xp-inputs label { display: flex; flex-direction: column; gap: .3rem; color: #87b9b2; font-size: .78rem; }

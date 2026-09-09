@@ -6,8 +6,8 @@ import { gameData } from '../src/data/index.ts';
 import type { GameClass, Item } from '../src/types/game.ts';
 import { parseSharedBuild } from '../src/rules/sharing.ts';
 
-const jt: GameClass = { id: 2, name: 'Jump Trooper', group: 'Combat', baseHp: 80, baseCarryKg: 30 };
-const drop: GameClass = { id: 24, name: 'Drop Trooper', group: 'Specialist', baseHp: 80, baseCarryKg: 30 };
+const jt: GameClass = { id: 2, name: 'Jump Trooper', group: 'Combat', baseHp: 80, baseCarryKg: 30, requiredXp: 0, minimumAttributes: {} };
+const drop: GameClass = { id: 24, name: 'Drop Trooper', group: 'Specialist', baseHp: 80, baseCarryKg: 30, requiredXp: 0, minimumAttributes: {} };
 const greaves: Item = { id: 73, name: 'Greaves - Alloy', category: 'armor', sourceCategory: 'Armor-Boots/Greaves', description: '', weightKg: 6.5, requirement: { rawExpression: '(2|3|5|6|7|9|26|10|19|20|22)&!30', allowedClassIds:[2,3,5,6,7,9,26,10,19,20,22], blockedClassIds:[30], minimumAttributes:{},hasUnverifiedGate:false }, rawFields:[] };
 test('Jump Trooper strength 18 has 48 kg maximum carry', () => { const result=calculateBuild({classId:2,attributes:{...EMPTY_ATTRIBUTES,strength:18},entries:[]},[jt],[greaves]); assert.equal(result.maxCarryKg,48); });
 test('Drop Trooper cannot use Greaves - Alloy', () => { assert.equal(evaluateRequirement(greaves.requirement,drop,EMPTY_ATTRIBUTES).eligible,false); });
@@ -43,6 +43,15 @@ test('attribute ceilings are imported from Pioneer Station descriptions', () => 
   assert.equal(gameData.attributes.find(attribute => attribute.key === 'technical')?.maxLevel, 10);
   assert.equal(gameData.attributes.find(attribute => attribute.key === 'commerce')?.maxLevel, 3);
   assert.equal(gameData.attributes.find(attribute => attribute.key === 'stamina')?.maxLevel, 5);
+});
+test('class experience gates are imported from Pioneer Station class requirements', () => {
+  assert.equal(gameData.classes.find(gameClass => gameClass.name === 'Squad Leader')?.requiredXp, 25000);
+  assert.equal(gameData.classes.find(gameClass => gameClass.name === 'Captain')?.requiredXp, 700000);
+  assert.equal(gameData.classes.find(gameClass => gameClass.name === 'Jump Trooper')?.requiredXp, 0);
+});
+test('class attribute gates are imported from Pioneer Station class requirements', () => {
+  assert.deepEqual(gameData.classes.find(gameClass => gameClass.name === 'Jump Trooper')?.minimumAttributes, { strength: 2, vehicle: 3, deftness: 4, technical: 2 });
+  assert.deepEqual(gameData.classes.find(gameClass => gameClass.name === 'Squad Leader')?.minimumAttributes, { leadership: 1 });
 });
 test('shared builds accept only known zone classes and items', () => {
   const source = { version: 1, name: 'Player build', loadout: { classId: gameData.classes[0].id, attributes: { ...EMPTY_ATTRIBUTES }, entries: [{ entryId: 'example', itemId: gameData.items[0].id, quantity: 1 }] } };
