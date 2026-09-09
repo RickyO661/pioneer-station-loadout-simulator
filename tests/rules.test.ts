@@ -4,6 +4,7 @@ import { calculateAttributePurchaseCost, calculateBuild, calculateExperiencePlan
 import { evaluateRequirement } from '../src/rules/requirements.ts';
 import { gameData } from '../src/data/index.ts';
 import type { GameClass, Item } from '../src/types/game.ts';
+import { parseSharedBuild } from '../src/rules/sharing.ts';
 
 const jt: GameClass = { id: 2, name: 'Jump Trooper', group: 'Combat', baseHp: 80, baseCarryKg: 30 };
 const drop: GameClass = { id: 24, name: 'Drop Trooper', group: 'Specialist', baseHp: 80, baseCarryKg: 30 };
@@ -34,4 +35,10 @@ test('regular ammo is filtered, Recall Token is an item, and special ammunition 
   assert.equal(gameData.items.some(item => item.name === 'Ammo - Rifle 4mm'), false);
   assert.equal(gameData.items.find(item => item.name === 'Recall Token')?.category, 'items');
   assert.equal(gameData.items.find(item => item.name === 'Stim Dart')?.category, 'ammo');
+});
+test('shared builds accept only known zone classes and items', () => {
+  const source = { version: 1, name: 'Player build', loadout: { classId: gameData.classes[0].id, attributes: { ...EMPTY_ATTRIBUTES }, entries: [{ entryId: 'example', itemId: gameData.items[0].id, quantity: 1 }] } };
+  assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items)?.name, 'Player build');
+  source.loadout.entries[0].itemId = -1;
+  assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items), null);
 });
