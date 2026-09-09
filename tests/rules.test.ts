@@ -36,6 +36,14 @@ test('regular ammo is filtered, Recall Token is an item, and special ammunition 
   assert.equal(gameData.items.find(item => item.name === 'Recall Token')?.category, 'items');
   assert.equal(gameData.items.find(item => item.name === 'Stim Dart')?.category, 'ammo');
 });
+test('attribute ceilings are imported from Pioneer Station descriptions', () => {
+  assert.equal(gameData.attributes.find(attribute => attribute.key === 'strength')?.maxLevel, 20);
+  assert.equal(gameData.attributes.find(attribute => attribute.key === 'vitality')?.maxLevel, 50);
+  assert.equal(gameData.attributes.find(attribute => attribute.key === 'deftness')?.maxLevel, 10);
+  assert.equal(gameData.attributes.find(attribute => attribute.key === 'technical')?.maxLevel, 10);
+  assert.equal(gameData.attributes.find(attribute => attribute.key === 'commerce')?.maxLevel, 3);
+  assert.equal(gameData.attributes.find(attribute => attribute.key === 'stamina')?.maxLevel, 5);
+});
 test('shared builds accept only known zone classes and items', () => {
   const source = { version: 1, name: 'Player build', loadout: { classId: gameData.classes[0].id, attributes: { ...EMPTY_ATTRIBUTES }, entries: [{ entryId: 'example', itemId: gameData.items[0].id, quantity: 1 }] } };
   assert.equal(parseSharedBuild(JSON.stringify(source), gameData.classes, gameData.items)?.name, 'Player build');
