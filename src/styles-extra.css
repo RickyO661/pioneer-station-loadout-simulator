@@ -75,9 +75,10 @@ main { position: relative; }
   padding: 1.2rem 1.35rem;
   border: 1px solid #2a6a65;
   border-bottom: 3px solid #52d1bf;
+  min-height: 13.5rem;
   background:
-    linear-gradient(100deg, rgba(6, 24, 27, .94), rgba(7, 20, 25, .84) 62%, rgba(13, 43, 46, .8)),
-    radial-gradient(ellipse at 78% 48%, rgba(40, 160, 147, .18), transparent 48%),
+    linear-gradient(100deg, rgba(4, 16, 18, .58), rgba(7, 20, 25, .36) 62%, rgba(8, 27, 29, .5)),
+    radial-gradient(ellipse at 78% 48%, rgba(40, 160, 147, .12), transparent 48%),
     url('/pioneer-station-console-hero.png') center / cover no-repeat,
     #09191b;
   box-shadow: 0 0 0 1px rgba(103, 245, 222, .06) inset, 0 1.2rem 3rem rgba(0, 0, 0, .24);
@@ -105,7 +106,15 @@ main { position: relative; }
   filter: drop-shadow(0 0 5px rgba(112, 239, 193, .6));
 }
 
-.command-brand { display: flex; gap: .9rem; align-items: flex-start; }
+.command-brand {
+  display: flex;
+  gap: .9rem;
+  align-items: flex-start;
+  padding: .7rem .85rem;
+  border-left: 2px solid #69dfd1;
+  background: linear-gradient(90deg, rgba(4, 18, 20, .88), rgba(4, 18, 20, .56), transparent);
+  text-shadow: 0 2px 8px #000;
+}
 .command-mark {
   display: grid;
   flex: 0 0 auto;
@@ -123,7 +132,14 @@ main { position: relative; }
   letter-spacing: -.1em;
 }
 
-.command-controls { display: grid; justify-items: end; gap: .65rem; }
+.command-controls {
+  display: grid;
+  justify-items: end;
+  gap: .65rem;
+  padding: .7rem;
+  background: linear-gradient(270deg, rgba(4, 18, 20, .86), rgba(4, 18, 20, .48), transparent);
+  text-shadow: 0 2px 8px #000;
+}
 .console-status { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; color: #6fc8c1; font: 700 .65rem/1 ui-monospace, Consolas, monospace; letter-spacing: .1em; }
 .console-status span:first-child { color: #8ff0ae; }
 .console-status i { display: inline-block; width: .42rem; height: .42rem; margin-right: .35rem; border-radius: 50%; background: #73efa9; box-shadow: 0 0 .55rem #73efa9; }
@@ -138,7 +154,7 @@ button { box-shadow: 0 0 .65rem rgba(73, 202, 185, .08); transition: transform .
 button:hover { transform: translateY(-1px); border-color: #5de1cf; }
 
 @media(max-width:680px) {
-  .command-deck { padding: 1rem; }
+  .command-deck { min-height: 0; padding: 1rem; background-position: 62% center; }
   .command-brand { gap: .65rem; }
   .command-mark { width: 2.2rem; height: 2.2rem; }
   .command-controls { justify-items: start; margin-top: .8rem; }
