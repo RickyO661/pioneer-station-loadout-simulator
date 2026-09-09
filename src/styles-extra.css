@@ -173,4 +173,10 @@ button:hover { transform: translateY(-1px); border-color: #5de1cf; }
   .command-controls { justify-items: start; margin-top: .8rem; }
   .console-status { justify-content: flex-start; flex-wrap: wrap; gap: .5rem; }
 }
+@media(min-width:1150px) {
+  .command-deck { grid-template-columns: minmax(11rem, 1fr) minmax(40rem, 45rem) minmax(11rem, 1fr); justify-content: center; }
+  .command-brand { grid-column: 2; grid-row: 1; justify-self: center; transform: none; }
+  .command-controls { grid-column: 2; grid-row: 2; justify-items: center; }
+  .console-status, .build-actions { justify-content: center; }
+}
 @media(max-width:680px) { .build-actions { justify-content: flex-start; } .comparison-head, .comparison-grid { grid-template-columns: 1fr; } .build-comparison select { display: block; margin: .35rem 0 0; width: 100%; } }
