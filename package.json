@@ -1,0 +1,14 @@
+{
+  "name": "eol-pioneer-loadout-simulator",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "tsx --test tests/**/*.test.ts",
+    "import-zone": "node scripts/import-zone.mjs"
+  },
+  "dependencies": { "@vitejs/plugin-react": "latest", "vite": "latest", "react": "latest", "react-dom": "latest" },
+  "devDependencies": { "typescript": "latest", "tsx": "latest", "@types/react": "latest", "@types/react-dom": "latest" }
+}
