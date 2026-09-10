@@ -79,6 +79,8 @@ test('suit effects use the named Pioneer Station energy and movement fields', ()
   const byName = (name: string) => gameData.items.find(item => item.name === name)!;
   const effects = calculateSuitEffects(['Suit SuperCharger', 'PF Generator', 'Energy Sensors', 'Carapace'].map(name => ({ suitModifiers: byName(name).suitModifiers, quantity: 1 })));
   assert.deepEqual(effects, { energyRateRaw: -7.5, speedRaw: -15, hyperSpeedRaw: -15, thrustRaw: -7.5, rotationRaw: 0 });
+  const advancedActuatorSetup = calculateSuitEffects(['Greaves - Alloy', 'Reformulated CMP4 CA', 'Advanced Actuators'].map(name => ({ suitModifiers: byName(name).suitModifiers, quantity: 1 })));
+  assert.deepEqual(advancedActuatorSetup, { energyRateRaw: -5.5, speedRaw: -6, hyperSpeedRaw: -5, thrustRaw: 0.5, rotationRaw: 1 });
 });
 test('armor totals include all six named protection channels', () => {
   const pfGenerator = gameData.items.find(item => item.name === 'PF Generator')!;

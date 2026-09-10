@@ -4,7 +4,10 @@ import { RULES } from '../rules/config';
 
 const effectKeys = ['energyRateRaw', 'speedRaw', 'hyperSpeedRaw', 'rotationRaw', 'thrustRaw'] as const satisfies Array<keyof SuitModifiers>;
 const formatSigned = (value: number) => `${value > 0 ? '+' : ''}${Number.isInteger(value) ? value : value.toFixed(1)}`;
-const displayEffect = (key: keyof SuitModifiers, value: number) => RULES.suitEffects.labels[key].unit === '%' ? Math.trunc(value) : value;
+const formatEffect = (key: keyof SuitModifiers, value: number) => {
+  const unit = RULES.suitEffects.labels[key].unit;
+  return `${value > 0 ? '+' : ''}${unit === '%' ? value.toFixed(1) : Number.isInteger(value) ? value : value.toFixed(1)}${unit === '%' ? '%' : ` ${unit}`}`;
+};
 
 export function ArmorAnalysis({ entries }: { entries: Array<{ item: Item; quantity: number }> }) {
   const armor = entries.filter(entry => entry.item.armor);
@@ -18,7 +21,7 @@ export function ArmorAnalysis({ entries }: { entries: Array<{ item: Item; quanti
     {armor.length === 0 && suitGear.length === 0 ? <p className="empty">Select armor or suit equipment to see your combined effects.</p> : <>
       <div className="armor-summary suit-effects-summary">
         <span>Total armor weight <b>{totalWeight.toFixed(3)} kg</b></span>
-        {effectKeys.map(key => { const meta = RULES.suitEffects.labels[key]; return <span key={key}>{meta.label} <b>{formatSigned(displayEffect(key, effects[key]))}{meta.unit === '%' ? '%' : ` ${meta.unit}`}</b></span>; })}
+        {effectKeys.map(key => { const meta = RULES.suitEffects.labels[key]; return <span key={key}>{meta.label} <b>{formatEffect(key, effects[key])}</b></span>; })}
       </div>
       {armor.length > 0 && <div className="armor-protection-summary">
         <h3>Combined armor protection</h3>
@@ -29,7 +32,7 @@ export function ArmorAnalysis({ entries }: { entries: Array<{ item: Item; quanti
       </div>}
       <details className="armor-sources"><summary>Selected armor and suit equipment</summary>{suitGear.map(({ item, quantity }) => <article className="armor-card" key={item.id}>
         <h3>{item.name}{quantity > 1 ? ` × ${quantity}` : ''}</h3>
-        <p>{item.sourceCategory} · {item.weightKg.toFixed(3)} kg · Energy rate {formatSigned(displayEffect('energyRateRaw', (item.suitModifiers?.energyRateRaw ?? 0) / RULES.suitEffects.rawScale))} kJ/s · Speed {formatSigned(displayEffect('speedRaw', (item.suitModifiers?.speedRaw ?? 0) / RULES.suitEffects.rawScale))}% · Hyper-Speed {formatSigned(displayEffect('hyperSpeedRaw', (item.suitModifiers?.hyperSpeedRaw ?? 0) / RULES.suitEffects.rawScale))}% · Rotation {formatSigned(displayEffect('rotationRaw', (item.suitModifiers?.rotationRaw ?? 0) / RULES.suitEffects.rawScale))}% · Thrust {formatSigned(displayEffect('thrustRaw', (item.suitModifiers?.thrustRaw ?? 0) / RULES.suitEffects.rawScale))}%</p>
+        <p>{item.sourceCategory} · {item.weightKg.toFixed(3)} kg · {effectKeys.map(key => `${RULES.suitEffects.labels[key].label} ${formatEffect(key, (item.suitModifiers?.[key] ?? 0) / RULES.suitEffects.rawScale)}`).join(' · ')}</p>
       </article>)}</details>
     </>}
   </section>;
