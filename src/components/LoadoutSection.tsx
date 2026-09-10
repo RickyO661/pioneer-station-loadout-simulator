@@ -14,7 +14,12 @@ function ItemEffects({ item }: { item: Item }) {
     if (!ignore && !protection) return [];
     return [{ label: RULES.armor.damageChannels[index], value: `${ignore ? `Ignore ${formatSigned(ignore)}` : ''}${ignore && protection ? ' · ' : ''}${protection ? `Protection ${formatSigned(protection)}%` : ''}` }];
   }) ?? [];
-  const energyRate = (item.suitModifiers?.energyRateRaw ?? 0) / RULES.suitEffects.rawScale;
+  const suitEffects = (['energyRateRaw', 'speedRaw', 'hyperSpeedRaw', 'rotationRaw', 'thrustRaw'] as const).flatMap(key => {
+    const value = (item.suitModifiers?.[key] ?? 0) / RULES.suitEffects.rawScale;
+    if (!value) return [];
+    const meta = RULES.suitEffects.labels[key];
+    return [{ label: meta.label, value: `${formatSigned(value)}${meta.unit === '%' ? '%' : ` ${meta.unit}`}` }];
+  });
   const projectileEffects = item.projectile?.channels.flatMap((channel, index) => {
     const inner = channel.innerRaw / RULES.projectile.damageScale;
     const outer = channel.outerRaw / RULES.projectile.damageScale;
@@ -24,7 +29,7 @@ function ItemEffects({ item }: { item: Item }) {
   }) ?? [];
   const effects = [
     ...armorEffects,
-    ...(energyRate ? [{ label: 'Energy rate', value: `${formatSigned(energyRate)} kJ/s` }] : []),
+    ...suitEffects,
     ...projectileEffects,
     ...(item.consumable?.energyRestored ? [{ label: 'Restores energy', value: `${item.consumable.energyRestored}` }] : []),
     ...(item.consumable?.healthRestoredPercent ? [{ label: 'Restores HP', value: `${item.consumable.healthRestoredPercent}% max HP` }] : [])
