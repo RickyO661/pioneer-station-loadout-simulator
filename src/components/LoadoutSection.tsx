@@ -14,12 +14,17 @@ function ItemEffects({ item }: { item: Item }) {
     if (!ignore && !protection) return [];
     return [{ label: RULES.armor.damageChannels[index], value: `${ignore ? `Ignore ${formatSigned(ignore)}` : ''}${ignore && protection ? ' · ' : ''}${protection ? `Protection ${formatSigned(protection)}%` : ''}` }];
   }) ?? [];
-  const suitEffects = (['energyRateRaw', 'speedRaw', 'hyperSpeedRaw', 'rotationRaw', 'thrustRaw'] as const).flatMap(key => {
-    const value = (item.suitModifiers?.[key] ?? 0) / RULES.suitEffects.rawScale;
-    if (!value) return [];
-    const meta = RULES.suitEffects.labels[key];
-    return [{ label: meta.label, value: `${formatSigned(value)}${meta.unit === '%' ? '%' : ` ${meta.unit}`}` }];
-  });
+  const effectCard = (label: string, rawValue: number, unit: '%' | 'kJ/s') => {
+    const value = rawValue / RULES.suitEffects.rawScale;
+    return value ? [{ label, value: `${formatSigned(value)}${unit === '%' ? '%' : ` ${unit}`}` }] : [];
+  };
+  const suitEffects = [
+    ...effectCard('Energy rate', item.suitModifiers?.energyRateRaw ?? 0, 'kJ/s'),
+    ...effectCard('Speed', item.suitModifiers?.speedRaw ?? 0, '%'),
+    ...effectCard('Hyper-Speed', item.suitModifiers?.hyperSpeedRaw ?? 0, '%'),
+    ...effectCard('Rotation', item.suitModifiers?.rotationRaw ?? 0, '%'),
+    ...effectCard('Thrust', item.suitModifiers?.thrustRaw ?? 0, '%')
+  ];
   const projectileEffects = item.projectile?.channels.flatMap((channel, index) => {
     const inner = channel.innerRaw / RULES.projectile.damageScale;
     const outer = channel.outerRaw / RULES.projectile.damageScale;
