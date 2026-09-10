@@ -124,7 +124,7 @@ main { position: relative; }
   text-shadow: 0 2px 8px #000;
 }
 .command-brand h1 { font-size: clamp(1.3rem, 1.8vw, 1.65rem); line-height: 1.05; }
-.command-brand .source { margin: .42rem 0 0; font-size: .7rem; }
+.command-brand .source { margin: .42rem 0 0; color: rgba(140, 180, 174, .5); font-size: .7rem; }
 .command-readout { display: flex; flex-wrap: wrap; gap: .25rem .85rem; margin-top: .35rem; color: #dffff6; font-size: .9rem; }
 .command-readout b { font-weight: 600; white-space: nowrap; }
 .command-readout b:not(:last-child)::after { content: ''; border-right: 1px solid #3b8079; margin-left: .85rem; }

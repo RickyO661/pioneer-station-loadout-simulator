@@ -25,10 +25,11 @@ export function calculateExperiencePlan(current: AttributeSet, target: Attribute
 }
 export function calculateBuild(loadout: Loadout, classes: GameClass[], items: Item[]): BuildResult {
   const gameClass = classes.find(c => c.id === loadout.classId) ?? classes[0];
-  const entries = loadout.entries.flatMap(entry => { const item = items.find(i => i.id === entry.itemId); return item ? [{ ...entry, item, stackKg: entry.quantity * item.weightKg, eligibility: evaluateRequirement(item.requirement, gameClass, loadout.attributes) }] : []; });
+  const entries = loadout.entries.flatMap(entry => { const item = items.find(i => i.id === entry.itemId); return item ? [{ ...entry, item, stackKg: entry.quantity * item.weightKg, stackPrice: entry.quantity * item.price, eligibility: evaluateRequirement(item.requirement, gameClass, loadout.attributes) }] : []; });
   const loadKg = entries.reduce((sum, entry) => sum + entry.stackKg, 0);
+  const totalPrice = entries.reduce((sum, entry) => sum + entry.stackPrice, 0);
   const maxCarryKg = gameClass.baseCarryKg + loadout.attributes.strength * RULES.carry.strengthKgPerPoint;
-  return { classBaseHp: gameClass.baseHp, finalHp: calculateHP(gameClass.baseHp, loadout.attributes.vitality), maxCarryKg, loadKg, remainingKg: maxCarryKg - loadKg, percentUsed: maxCarryKg ? loadKg / maxCarryKg * 100 : 0, entries };
+  return { classBaseHp: gameClass.baseHp, finalHp: calculateHP(gameClass.baseHp, loadout.attributes.vitality), maxCarryKg, loadKg, totalPrice, remainingKg: maxCarryKg - loadKg, percentUsed: maxCarryKg ? loadKg / maxCarryKg * 100 : 0, entries };
 }
 export function calculateArmorChannelTotals(entries: Array<{ armor?: ArmorStats; quantity: number }>) {
   return RULES.armor.damageChannels.map((name, index) => {
