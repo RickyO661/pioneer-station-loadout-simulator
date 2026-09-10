@@ -93,11 +93,11 @@ test('consumable restore values distinguish fixed energy from maximum-HP percent
   assert.deepEqual(['Small Energizer', 'Medium Energizer', 'Large Energizer'].map(name => byName(name).consumable?.energyRestored), [125, 250, 375]);
   assert.deepEqual(['Small Stim Pack', 'Medium Stim Pack', 'Large Stim Pack'].map(name => byName(name).consumable?.healthRestoredPercent), [10, 15, 20]);
 });
-test('weapon, add-on, and special-ammo projectile stats use their deployed projectile records', () => {
+test('weapon, add-on, and special-ammo projectile stats use all deployed damage channels', () => {
   const byName = (name: string) => gameData.items.find(item => item.name === name)!;
-  assert.deepEqual(byName('Grenade - Fragmentation').projectile, { innerDamage: 33, outerDamage: 33, blastRadius: 600 });
-  assert.deepEqual(byName('Maklov AR mk 606').projectile, { innerDamage: 0, outerDamage: 5, blastRadius: 0 });
-  assert.deepEqual(byName('Maklov RG 2').projectile, { innerDamage: 0, outerDamage: 5, blastRadius: 0 });
+  assert.deepEqual(byName('Maklov AR mk 606').projectile?.channels.map(channel => [channel.innerRaw / 1000, channel.outerRaw / 1000, channel.blastRadiusRaw]), [[20, 10, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [60, 25, 2]]);
+  assert.deepEqual(byName('Grenade - Fragmentation').projectile?.channels[1], { innerRaw: 60000, outerRaw: 15000, blastRadiusRaw: 0 });
+  assert.deepEqual(byName('Maklov RG 2').projectile?.channels[2], { innerRaw: 50000, outerRaw: 25000, blastRadiusRaw: 0 });
   assert.equal(byName('Maklov AR mk 606 DMR Kit').category, 'weapons');
   assert.ok(byName('Maklov AR mk 606 DMR Kit').projectile);
 });

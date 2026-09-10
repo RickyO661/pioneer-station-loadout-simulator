@@ -23,8 +23,7 @@ export function evaluateRequirement(requirement: ItemRequirement, gameClass: Gam
   if (requirement.allowedClassIds && !requirement.allowedClassIds.includes(gameClass.id)) messages.push(`Restricted to ${requirement.allowedClassIds.join(', ')} class IDs`);
   if (requirement.blockedClassIds?.includes(gameClass.id)) messages.push(`Not available to ${gameClass.name}`);
   for (const [key, minimum] of Object.entries(requirement.minimumAttributes)) if (attrs[key as AttributeKey] < minimum!) messages.push(`Requires ${title(key)} ${minimum}+`);
-  const warnings = requirement.hasUnverifiedGate ? ['Has an additional game requirement not evaluated by the simulator'] : [];
-  return { eligible: messages.length === 0, messages, warnings };
+  return { eligible: messages.length === 0, messages };
 }
 
 export function humanizeRequirement(requirement: ItemRequirement, classes: GameClass[]): string[] {

@@ -7,6 +7,10 @@ export const RULES = {
     protectionScale: 10,
     damageChannels: ['Kinetic / Impact', 'Explosive / Shock', 'Plasma / Heat', 'Chemical / Toxin', 'Psychic / Mental', 'Shield Drain']
   },
+  projectile: {
+    damageScale: 1000,
+    blastRadiusMetersPerRaw: 0.075
+  },
   suitEffects: {
     rawScale: 10,
     labels: {
