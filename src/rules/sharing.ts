@@ -39,3 +39,23 @@ export function parseSharedBuild(serialized: string, classes: GameClass[], items
     return null;
   }
 }
+
+function base64UrlEncode(value: string) {
+  return btoa(unescape(encodeURIComponent(value))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+
+function base64UrlDecode(value: string) {
+  const padded = value.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - value.length % 4) % 4);
+  return decodeURIComponent(escape(atob(padded)));
+}
+
+/** A URL fragment lets a build open directly in another player's simulator without a server. */
+export function createSharedBuildLink(name: string, loadout: Loadout) {
+  return `${window.location.origin}${window.location.pathname}#build=${base64UrlEncode(serializeSharedBuild(name, loadout))}`;
+}
+
+export function parseSharedBuildLink(hash: string, classes: GameClass[], items: Item[]) {
+  const encoded = new URLSearchParams(hash.replace(/^#/, '')).get('build');
+  if (!encoded) return null;
+  try { return parseSharedBuild(base64UrlDecode(encoded), classes, items); } catch { return null; }
+}

@@ -32,6 +32,13 @@
 .build-actions { display: flex; flex-wrap: wrap; gap: .45rem; justify-content: flex-end; }
 .sharing-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
 .file-import { display: none; }
+.item-browser { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; }
+.item-browser input { width: 12rem; }
+.item-browser select { width: auto; }
+.add-requirements { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; margin-top: .5rem; padding: .45rem .6rem; border: 1px solid #285650; background: rgba(9, 25, 27, .7); color: #a8ccc7; font-size: .75rem; }
+.add-requirements b { color: #6be5a4; font-size: .7rem; }
+.add-requirements.blocked { border-color: #8c5555; }
+.add-requirements.blocked b { color: #ff9b9b; }
 .build-comparison { margin: 1rem 0; padding: .8rem 1rem; border: 1px solid #285650; background: #09191b; }
 .build-comparison summary { color: #8be8e4; cursor: pointer; font-weight: 600; }
 .build-comparison p { color: #8cb4ae; font-size: .8rem; margin: .5rem 0; }
@@ -45,6 +52,9 @@
 .comparison-grid em { margin: 0 .35rem; color: #f1c56c; font-style: normal; }
 .comparison-items { display: grid; gap: .35rem; margin-top: .65rem; }
 .comparison-items b { color: #defbf8; font-size: .82rem; }
+.comparison-defense { display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: .35rem; margin-top: .65rem; }
+.comparison-defense > b { grid-column: 1 / -1; color: #defbf8; font-size: .82rem; }
+.comparison-defense span { padding: .45rem; background: #0b1c20; border: 1px solid #1d4f56; color: #9cd1d1; font-size: .72rem; }
 .suit-effects-summary { grid-template-columns: repeat(3, minmax(160px, 1fr)); }
 .armor-protection-summary { margin-top: .8rem; padding: .75rem; border: 1px solid #285650; background: #09191b; }
 .armor-protection-summary h3 { margin: 0; color: #defbf8; font-size: .95rem; }
@@ -202,4 +212,29 @@ button:hover { transform: translateY(-1px); border-color: #5de1cf; }
   .command-controls { grid-column: 2; grid-row: 2; justify-items: center; }
   .console-status, .build-actions { justify-content: center; }
 }
-@media(max-width:680px) { .build-actions { justify-content: flex-start; } .comparison-head, .comparison-grid { grid-template-columns: 1fr; } .build-comparison select { display: block; margin: .35rem 0 0; width: 100%; } }
+@media(max-width:680px) { .build-actions { justify-content: flex-start; } .comparison-head, .comparison-grid, .comparison-defense { grid-template-columns: 1fr; } .build-comparison select { display: block; margin: .35rem 0 0; width: 100%; } .item-browser { width: 100%; justify-content: flex-start; } .item-browser input, .item-browser select { width: 100%; } }
+
+@media print {
+  :root { color: #111; background: #fff; font-size: 11px; }
+  body, main { background: #fff; color: #111; max-width: none; padding: 0; }
+  body::before, .command-deck::before, .command-deck::after, .command-controls, .build-comparison, .xp-planner, .weight-meter, .section-heading .add-row, .item-browser, .add-requirements, button, input, select, .eligibility, .source, .model, .armor-sources { display: none !important; }
+  .command-deck { display: block; min-height: 0; padding: 0 0 .6rem; border: 0; border-bottom: 2px solid #1e5c55; background: transparent; box-shadow: none; }
+  .command-brand { display: block; max-width: none; padding: 0; border: 0; transform: none; background: transparent; text-shadow: none; }
+  .command-mark, .eyebrow { display: none; }
+  .command-brand h1, .command-readout { color: #111; }
+  .setup { display: block; margin: .5rem 0; padding: 0; border: 0; background: transparent; box-shadow: none; }
+  .setup > label { display: none; }
+  .attributes { grid-template-columns: repeat(9, 1fr); gap: .25rem; }
+  .attributes label { color: #333; }
+  .attributes input { display: block !important; border: 0; padding: 0; color: #111; background: transparent; }
+  .armor-analysis, .loadout-section { padding: .45rem 0; border-top: 1px solid #999; background: transparent; }
+  .section-heading h2, .armor-protection-summary h3 { color: #163f3a; }
+  .armor-summary { gap: .65rem; margin: .25rem 0; color: #333; }
+  .armor-protection-summary, .defense-grid div { border-color: #aaa; background: transparent; }
+  .entries { gap: .2rem; margin-top: .25rem; }
+  .entry { grid-template-columns: 2fr 1fr 1fr; gap: .3rem; padding: .35rem; border: 1px solid #bbb; background: transparent !important; color: #111; break-inside: avoid; }
+  .entry-name strong, .entry-name span, .entry-name small, dt, dd, .item-effect, .item-effect b { color: #111; }
+  .entry > label { display: none; }
+  .entry dl { grid-column: 2 / 4; }
+  .item-effect { border-color: #aaa; background: transparent; }
+}
