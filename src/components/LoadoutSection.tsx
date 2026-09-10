@@ -39,12 +39,12 @@ export function LoadoutSection({ title, category, items, entries, gameClass, att
   const [selected, setSelected] = useState('');
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'name' | 'price' | 'weight'>('name');
-  const available = useMemo(() => items.filter(item => item.category === category && `${item.name} ${item.sourceCategory} ${item.description}`.toLowerCase().includes(query.trim().toLowerCase())).sort((a,b) => sort === 'price' ? a.price - b.price || a.name.localeCompare(b.name) : sort === 'weight' ? a.weightKg - b.weightKg || a.name.localeCompare(b.name) : a.name.localeCompare(b.name)), [items, category, query, sort]);
+  const available = useMemo(() => items.filter(item => item.category === category && item.name.toLowerCase().includes(query.trim().toLowerCase())).sort((a,b) => sort === 'price' ? a.price - b.price || a.name.localeCompare(b.name) : sort === 'weight' ? a.weightKg - b.weightKg || a.name.localeCompare(b.name) : a.name.localeCompare(b.name)), [items, category, query, sort]);
   const updateSearch = (value: string, sortMode = sort) => {
     setQuery(value);
     const normalized = value.trim().toLowerCase();
     if (!normalized) { setSelected(''); return; }
-    const matches = items.filter(item => item.category === category && `${item.name} ${item.sourceCategory} ${item.description}`.toLowerCase().includes(normalized)).sort((a,b) => sortMode === 'price' ? a.price - b.price || a.name.localeCompare(b.name) : sortMode === 'weight' ? a.weightKg - b.weightKg || a.name.localeCompare(b.name) : a.name.localeCompare(b.name));
+    const matches = items.filter(item => item.category === category && item.name.toLowerCase().includes(normalized)).sort((a,b) => sortMode === 'price' ? a.price - b.price || a.name.localeCompare(b.name) : sortMode === 'weight' ? a.weightKg - b.weightKg || a.name.localeCompare(b.name) : a.name.localeCompare(b.name));
     setSelected(matches[0] ? String(matches[0].id) : '');
   };
   const selectedItem = items.find(item => item.id === Number(selected));
