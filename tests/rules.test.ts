@@ -88,3 +88,8 @@ test('armor totals include all six named protection channels', () => {
     ['Chemical / Toxin', 0, 0], ['Psychic / Mental', 0, 0], ['Shield Drain', 0, 22.5]
   ]);
 });
+test('consumable restore values distinguish fixed energy from maximum-HP percentages', () => {
+  const byName = (name: string) => gameData.items.find(item => item.name === name)!;
+  assert.deepEqual(['Small Energizer', 'Medium Energizer', 'Large Energizer'].map(name => byName(name).consumable?.energyRestored), [125, 250, 375]);
+  assert.deepEqual(['Small Stim Pack', 'Medium Stim Pack', 'Large Stim Pack'].map(name => byName(name).consumable?.healthRestoredPercent), [10, 15, 20]);
+});

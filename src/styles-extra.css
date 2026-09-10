@@ -53,6 +53,29 @@
 .armor-sources summary { cursor: pointer; font-weight: 600; }
 .armor-sources .armor-card { margin-top: .5rem; }
 
+/* Per-item zone-data effects fill the unused item-detail column without crowding prices or requirements. */
+.item-effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .42rem;
+}
+
+.item-effect {
+  display: flex;
+  flex-direction: column;
+  gap: .08rem;
+  min-width: 7.4rem;
+  padding: .28rem .4rem;
+  border: 1px solid rgba(79, 164, 153, .42);
+  background: rgba(7, 28, 30, .62);
+  color: #c9e5de;
+  font-size: .7rem;
+  line-height: 1.2;
+}
+
+.item-effect b { color: #6bd5cc; font-size: .66rem; font-weight: 600; }
+
 /* Tactical console skin: original CSS visuals, with no copied game artwork. */
 body::before {
   content: '';

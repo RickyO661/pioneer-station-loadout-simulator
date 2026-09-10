@@ -8,7 +8,9 @@ export interface ItemRequirement { rawExpression: string; allowedClassIds?: numb
 /** Raw suit-effect fields supplied by Pioneer Station item records. */
 export interface SuitModifiers { energyRateRaw: number; speedRaw: number; hyperSpeedRaw: number; thrustRaw: number; rotationRaw: number; }
 export interface ArmorStats { channels: { ignoreRaw: number; protectionRaw: number }[]; }
-export interface Item { id: number; name: string; category: ItemCategory; sourceCategory: string; description: string; weightKg: number; price: number; requirement: ItemRequirement; armor?: ArmorStats; suitModifiers?: SuitModifiers; rawFields: string[]; }
+/** Fixed energy restores and maximum-HP percentages supplied by Pioneer Station consumable records. */
+export interface ConsumableStats { energyRestored?: number; healthRestoredPercent?: number; }
+export interface Item { id: number; name: string; category: ItemCategory; sourceCategory: string; description: string; weightKg: number; price: number; requirement: ItemRequirement; armor?: ArmorStats; suitModifiers?: SuitModifiers; consumable?: ConsumableStats; rawFields: string[]; }
 export interface GameDatabase { source: { importedAt: string; files: Record<string, string> }; classes: GameClass[]; attributes: AttributeDefinition[]; attributeCostRules: AttributeCostRules; items: Item[]; }
 export interface LoadoutEntry { entryId: string; itemId: number; quantity: number; }
 export interface Loadout { classId: number; attributes: AttributeSet; entries: LoadoutEntry[]; }
