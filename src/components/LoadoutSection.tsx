@@ -18,6 +18,11 @@ function ItemEffects({ item }: { item: Item }) {
   const effects = [
     ...armorEffects,
     ...(energyRate ? [{ label: 'Energy rate', value: `${formatSigned(energyRate)} kJ/s` }] : []),
+    ...(item.projectile ? [
+      { label: 'Inner', value: `${item.projectile.innerDamage}` },
+      { label: 'Outer', value: `${item.projectile.outerDamage}` },
+      { label: 'Blast radius', value: `${item.projectile.blastRadius}` }
+    ] : []),
     ...(item.consumable?.energyRestored ? [{ label: 'Restores energy', value: `${item.consumable.energyRestored}` }] : []),
     ...(item.consumable?.healthRestoredPercent ? [{ label: 'Restores HP', value: `${item.consumable.healthRestoredPercent}% max HP` }] : [])
   ];

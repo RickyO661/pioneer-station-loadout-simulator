@@ -93,3 +93,11 @@ test('consumable restore values distinguish fixed energy from maximum-HP percent
   assert.deepEqual(['Small Energizer', 'Medium Energizer', 'Large Energizer'].map(name => byName(name).consumable?.energyRestored), [125, 250, 375]);
   assert.deepEqual(['Small Stim Pack', 'Medium Stim Pack', 'Large Stim Pack'].map(name => byName(name).consumable?.healthRestoredPercent), [10, 15, 20]);
 });
+test('weapon, add-on, and special-ammo projectile stats use their deployed projectile records', () => {
+  const byName = (name: string) => gameData.items.find(item => item.name === name)!;
+  assert.deepEqual(byName('Grenade - Fragmentation').projectile, { innerDamage: 33, outerDamage: 33, blastRadius: 600 });
+  assert.deepEqual(byName('Maklov AR mk 606').projectile, { innerDamage: 0, outerDamage: 5, blastRadius: 0 });
+  assert.deepEqual(byName('Maklov RG 2').projectile, { innerDamage: 0, outerDamage: 5, blastRadius: 0 });
+  assert.equal(byName('Maklov AR mk 606 DMR Kit').category, 'weapons');
+  assert.ok(byName('Maklov AR mk 606 DMR Kit').projectile);
+});
